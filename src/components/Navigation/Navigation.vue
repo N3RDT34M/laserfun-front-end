@@ -15,6 +15,12 @@ defineProps<{
                 <li class="nav-item">
                     <router-link class="nav-link" to="configuration">Configuration d'une partie</router-link>
                 </li>
+                <li class="nav-item">
+                    <router-link class="nav-link" to="game">Partie en cours</router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link class="nav-link" to="score">Tableau des scores</router-link>
+                </li>
             </ul>
         </div>
     </nav>
