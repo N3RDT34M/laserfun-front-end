@@ -53,7 +53,7 @@ const onNbPlayerRedChange = (newValue: any) => {
     <Vueform
     validate-on="change"
     class="container mt-4"
-    endpoint="/salut" method="post">
+    endpoint="/game/set" method="post">
 
       <StaticElement
       name="titleBlue"
