@@ -1,5 +1,14 @@
 <script setup lang="ts">
+import { ref } from 'vue';
+import { useCookies } from 'vue3-cookies';
 
+const { cookies } = useCookies();
+const serverIp = ref<HTMLInputElement>();
+
+const saveServerIp = () => {
+  cookies.set('serverIp', serverIp.value?.value ?? '');
+  window.location.reload();
+};
 </script>
 
 <template>
@@ -11,6 +20,14 @@
         <hr class="my-4">
         <p class="lead">Sur cette application d'interface au serveur, vous pourrez gérer la partie, voir le temps restant, les résultats...</p>
         <router-link class="btn btn-primary btn-lg" to="configuration" role="button">Lancer une partie</router-link>
+        <hr class="my-4">
+        <form class="mb-4">
+          <div class="form-group">
+            <label for="serverIp">Adresse IP du serveur (sauvegardée dans les paramètres)</label>
+            <input type="text" class="form-control" ref="serverIp" id="serverIp" placeholder="Entrez l'adresse IP">
+            <button type="button" class="btn btn-success mt-2" @click="saveServerIp">Sauvegarder</button>
+          </div>
+        </form>
       </div>
     </div>
   </main>

@@ -1,7 +1,11 @@
 import axios from 'axios';
+import { useCookies } from 'vue3-cookies';
+
+const { cookies } = useCookies();
+
 
 const instance = axios.create({
-    baseURL: import.meta.env.VITE_API_URL
+    baseURL: 'http://' + (cookies.get('serverIp') ?? 'localhost')
 });
 
 export const serverAPI = instance;

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { serverAPI } from '@/composables/API';
 import type { ListElement, TextElement } from '@vueform/vueform';
 import { ref, useTemplateRef, watch, type Ref } from 'vue';
 
@@ -46,6 +45,41 @@ const onNbPlayerRedChange = (newValue: any) => {
   nbPlayersRed.value = newValue;
   console.log(`Nombre de joueurs rouges: ${newValue}`);
 };
+
+const onSubmit = async (form$ : any, FormData : any) => {
+  const requestData = form$.requestData
+
+  // Show loading spinner
+  form$.submitting = true
+
+  // Setting cancel token
+  form$.cancelToken = form$.$vueform.services.axios.CancelToken.source()
+
+  let response
+
+  try {
+    console.log(requestData);
+    // Sending the request
+    response = await form$.$vueform.services.axios.post(
+      '/game/set',
+      requestData,
+      {
+        cancelToken: form$.cancelToken.token,
+      }
+    )
+  } catch (error) {
+    // Handle error (status is outside of 2XX or other error)
+    console.error('error', error)
+    return
+  } finally {
+    // Hide loading spinner
+    form$.submitting = false
+  }
+
+  // Handle success (status is 2XX)
+  console.log('success', response)
+}
+
 </script>
 
 <template>
@@ -53,7 +87,8 @@ const onNbPlayerRedChange = (newValue: any) => {
     <Vueform
     validate-on="change"
     class="container mt-4"
-    endpoint="/game/set" method="post">
+    :endpoint="false"
+    @submit="onSubmit">
 
       <StaticElement
       name="titleBlue"
